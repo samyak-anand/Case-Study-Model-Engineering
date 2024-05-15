@@ -51,39 +51,39 @@ from imblearn.over_sampling import SMOTE  # Synthetic Minority Over-sampling Tec
 import shap  # SHapley Additive exPlanations
 
 # Read the Excel file into a DataFrame
-df = pd.read_excel(r"/home/samyak/Python_Projects/Case _Study_ Model_Engineering/Datasets/PSP_Jan_Feb_2019.xlsx")
+df = pd.read_excel(r"/home/samyak/PycharmProjects/Case_study_model_eng/Dataset/PSP_Jan_Feb_2019.xlsx")
 
 # Display the DataFrame
 print(df.head())
 
 print(df.columns)
 
-missing_values= df.isnull().sum()
+missing_values = df.isnull().sum()
 
-missing_data =pd.DataFrame({
+missing_data = pd.DataFrame({
     'Missing Values': missing_values,
     #'Percentage Missing Value': Percentage_missing_value
 })
 print(f"The dataframe has {len(missing_values)} rows with missing values.")
 
-data_type=df.dtypes
+data_type = df.dtypes
 print(f"Data Type Information:\n{data_type}")
 
 #Print the number of rows in the DataFrame
-print("Number of rows in ideal data set : ",len(df))
+print("Number of rows in ideal data set : ", len(df))
 
 for column in df.columns:
-    unique_values= df[column].unique
+    unique_values = df[column].unique
     print(f"Column: {column}\nUnique Values: {unique_values}\n")
     # Perform mathematical operations on a specific column of data.
-    if np.issubdtype(df[column].dtype,np.number):  # Check if the datatype is numeric.
-        mean = df[column].mean()                   # Calculate the mean of the numerical column.
-        std = df[column].std()                     # Calculate the standard deviation of the numerical column.
-        std = df[column].std()                     # Calculate the standard deviation of the numerical column.
-        std_dev = df[column].std()                # Calculate the standard deviation of the numerical column.
+    if np.issubdtype(df[column].dtype, np.number):  # Check if the datatype is numeric.
+        mean = df[column].mean()  # Calculate the mean of the numerical column.
+        std = df[column].std()  # Calculate the standard deviation of the numerical column.
+        std = df[column].std()  # Calculate the standard deviation of the numerical column.
+        std_dev = df[column].std()  # Calculate the standard deviation of the numerical column.
 
 #Print the number of column in the Data Frame
-print("Number of column in ideal data set : ",len(column))
+print("Number of column in ideal data set : ", len(column))
 
 # Displaying the information about the DataFrame, including data type and memory usage
 # of each column.
@@ -98,7 +98,7 @@ for col in df.columns:
 print(df.head())
 
 #Dropint hr "Unnamed: 0" column form the Data Frame
-df =df.drop('Unnamed: 0', axis=1)
+df = df.drop('Unnamed: 0', axis=1)
 # Print the remaining columns after dropping 'Unnamed: 0'
 print(df.head())
 
@@ -114,7 +114,7 @@ print(df['card'].describe().to_frame().T)
 
 print(df['country'].describe().to_frame().T)
 
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(10, 6))
 sns.set_style("whitegrid")
 sns.histplot(df['amount'], kde=True, color='red')  # Change the color of the histogram
 kde_line = mlines.Line2D([], [], color='blue', linewidth=2, label='KDE')
@@ -124,6 +124,7 @@ plt.xlabel('Transaction Amount')
 plt.ylabel('Frequency')
 plt.gca().get_lines()[-1].set_color('blue')  # Change the color of the KDE line
 plt.show()
+
 
 def plot_distribution(column, title, xlabel, ylabel):
     sns.set_style("whitegrid")
@@ -154,6 +155,7 @@ def plot_distribution(column, title, xlabel, ylabel):
 
     # Show the plot distribution
     plt.show()
+
 
 # Call the function for different columns
 plot_distribution('success', 'Distribution of Success', 'Success', 'Count')
@@ -293,6 +295,7 @@ plt.ylabel('Success Rate')
 # Show the plot
 plt.show()
 
+
 def process_transaction_fees(df):
     # Reset the index of the DataFrame
     df.reset_index(inplace=True)
@@ -313,11 +316,13 @@ def process_transaction_fees(df):
 
     # Create a new column 'transaction_fee' based on success or failure, using np.where
     df['transaction_fee'] = np.where(df['success'] == 1, df['PSP'].map(success_fee_mapping),
-                                      df['PSP'].map(failed_fee_mapping))
+                                     df['PSP'].map(failed_fee_mapping))
 
     # Print the first few rows of the updated DataFrame
-    print("Associated the service fees of Payment Service Providers (PSPs) with the dataset under the column identifier 'transaction_fee' \n")
+    print(
+        "Associated the service fees of Payment Service Providers (PSPs) with the dataset under the column identifier 'transaction_fee' \n")
     print(df.head())
+
 
 # Call the function with your DataFrame
 process_transaction_fees(df)
@@ -349,6 +354,7 @@ print(df.head())
 df.drop('tmsp', axis=1, inplace=True)
 print("Updated dataset after feature selection")
 print(df.head())
+
 
 def visualize_data(df):
     # Select numeric columns for summary statistics
@@ -416,6 +422,7 @@ def visualize_data(df):
     # Show the plot
     plt.show()
 
+
 # Call the function with your DataFrame
 visualize_data(df)
 
@@ -432,12 +439,12 @@ print("Unique values in 'card' column:", unique_cards)
 sns.set(style="whitegrid")
 
 # Set the palette to 'Reds'
-palette='Reds'
+palette = 'Reds'
 sns.set_palette(palette)
 
 # Box plot for 'amount'
 plt.figure(figsize=(8, 6))
-sns.boxplot(x=df['amount'] )
+sns.boxplot(x=df['amount'])
 plt.title('Box Plot for Amount')
 plt.xlabel('Amount')
 plt.ylabel('Value')
@@ -492,6 +499,7 @@ The baseline model is a simple linear regression model. It assumes that the rela
 The baseline model is a simple linear regression model with no interaction terms.
 """
 
+
 def evaluate_model(model, X_scaled, y, set_name):
     """
     Evaluate the performance of a model on a given dataset.
@@ -525,7 +533,7 @@ def evaluate_model(model, X_scaled, y, set_name):
     conf_matrix = confusion_matrix(y, y_pred)
 
     # Print the model performance metrics
-    print(f'\n{"="*20} {type(model).__name__} {"="*20}\n')
+    print(f'\n{"=" * 20} {type(model).__name__} {"=" * 20}\n')
     print(f'Model Performance on {set_name} set - {type(model).__name__}:')
     print('\n')
     print(f'Accuracy: {accuracy:.4f}')
@@ -533,13 +541,13 @@ def evaluate_model(model, X_scaled, y, set_name):
     print(f'Recall: {recall:.4f}')
     print(f'F1-Score: {f1:.4f}')
     print(f'AUC-ROC: {roc_auc:.4f}')
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print(classification_report(y, y_pred))
 
-     # Calculate and print confusion matrix
+    # Calculate and print confusion matrix
     cm = confusion_matrix(y, y_pred)
     cm_df1 = pd.DataFrame(cm, index=model.classes_, columns=model.classes_)
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print("Confusion Matrix:")
     print(cm_df1)
     plt.figure()
@@ -563,19 +571,23 @@ def evaluate_model(model, X_scaled, y, set_name):
     plt.legend(loc="lower right")
     plt.show()
 
+
 # Encode categorical variables using one-hot encoding
 df_1_encoded = pd.get_dummies(df_1, columns=['country', 'PSP', 'card'])
 # Split the dataset into train, validation, and test sets
 #X_original = df_1_encoded.drop('success', axis=1)
 X_original = df_1_encoded.drop('success', axis=1)
 y_original = df_1_encoded['success']
-X_train_original, X_temp_original, y_train_original, y_temp_original = train_test_split(X_original,y_original, test_size=0.2, random_state=42)
-X_validation_original, X_test_original, y_validation_original, y_test_original =train_test_split(X_temp_original, y_temp_original, test_size=0.5, random_state=42)
+X_train_original, X_temp_original, y_train_original, y_temp_original = train_test_split(X_original, y_original,
+                                                                                        test_size=0.2, random_state=42)
+X_validation_original, X_test_original, y_validation_original, y_test_original = train_test_split(X_temp_original,
+                                                                                                  y_temp_original,
+                                                                                                  test_size=0.5,
+                                                                                                  random_state=42)
 
 # Create and train a baseline KNN model
 baseline_knn_model = KNeighborsClassifier()
 baseline_knn_model.fit(X_train_original, y_train_original)
-
 
 # Evaluate the model on the validation set
 evaluate_model(baseline_knn_model, X_validation_original, y_validation_original, "validation set")
@@ -622,6 +634,7 @@ X_train_scaled_1 = scaler.fit_transform(X_train_1)
 X_valid_scaled_1 = scaler.transform(X_valid_1)
 X_test_scaled_1 = scaler.transform(X_test_1)
 
+
 def calculate_classification_metrics(y_true, y_pred, y_pred_proba):
     """
     Calculate various classification metrics and display results.
@@ -652,8 +665,8 @@ def calculate_classification_metrics(y_true, y_pred, y_pred_proba):
     for metric, value in metrics.items():
         print(f"{metric}: {value:.4f}")
 
-
     return metrics
+
 
 def evaluate_model(model, X_scaled, y, set_name):
     """
@@ -676,13 +689,13 @@ def evaluate_model(model, X_scaled, y, set_name):
     conf_matrix = confusion_matrix(y, y_pred)
     cm_df = pd.DataFrame(conf_matrix, index=model.classes_, columns=model.classes_)
 
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print(f'Classification Report: {set_name} set - {type(model).__name__}  \n')
     print(classification_report(y, y_pred))
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print(f"Confusion Matrix: {set_name} set - {type(model).__name__} ")
     print(cm_df)
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     plt.figure()
     plt.imshow(cm_df, cmap='Reds')
     plt.title(f'Confusion Matrix: {set_name} set - {type(model).__name__}')
@@ -703,11 +716,12 @@ def evaluate_model(model, X_scaled, y, set_name):
     plt.legend(loc="lower right")
     plt.show()
 
+
 # Model Training and Evaluation
 def train_and_evaluate_model(model, X_train_scaled, y_train, X_valid_scaled, y_valid, X_test_scaled, y_test):
     model.fit(X_train_scaled, y_train)
 
-    print(f'\n{"="*20} {type(model).__name__} {"="*20}\n')
+    print(f'\n{"=" * 20} {type(model).__name__} {"=" * 20}\n')
 
     print("Validation Set Evaluation:")
     evaluate_model(model, X_valid_scaled, y_valid, "Validation")
@@ -715,9 +729,11 @@ def train_and_evaluate_model(model, X_train_scaled, y_train, X_valid_scaled, y_v
     print("Test Set Evaluation:")
     evaluate_model(model, X_test_scaled, y_test, "Test")
 
+
 # Logistic Regression
 log_reg_model = LogisticRegression(random_state=42)
-train_and_evaluate_model(log_reg_model, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1)
+train_and_evaluate_model(log_reg_model, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1,
+                         y_test_1)
 
 # Decision Tree
 dt_model = DecisionTreeClassifier(random_state=42)
@@ -731,6 +747,7 @@ train_and_evaluate_model(rf_model, X_train_scaled_1, y_train_1, X_valid_scaled_1
 xgb_model = xgb.XGBClassifier(random_state=42, objective='multi:softmax', num_class=9)
 train_and_evaluate_model(xgb_model, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1)
 
+
 def optimize_and_evaluate_model(model, param_grid, X_train, y_train, X_valid, y_valid, X_test, y_test, set_name):
     # Initialize GridSearchCV with the given model, hyperparameters, scoring metric, and cross-validation
     grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='accuracy', cv=5, n_jobs=-1)
@@ -740,11 +757,12 @@ def optimize_and_evaluate_model(model, param_grid, X_train, y_train, X_valid, y_
 
     # Print the best parameters and best score found by GridSearchCV
     print(f'Best Parameters found for {set_name} set - {type(model).__name__}:')
-    print(f'{"="*20}{"="*20}')
+    print(f'{"=" * 20}{"=" * 20}')
     print(f"Best Parameters for {set_name} set: {grid_search.best_params_}")
     print(f"Best Score for {set_name} set: {grid_search.best_score_}")
     # Get the best model (i.e., the model with the best hyperparameters)
     best_model = grid_search.best_estimator_
+
 
 # Perform grid search for Decision Tree model
 
@@ -760,8 +778,10 @@ param_grid_dt = {
 dt_model_A = DecisionTreeClassifier(random_state=42)
 
 # Optimize and evaluate the Decision Tree model using the defined grid of hyperparameters
-optimize_and_evaluate_model(dt_model_A, param_grid_dt, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1, set_name="Decision Tree")
-train_and_evaluate_model(dt_model_A, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1)
+optimize_and_evaluate_model(dt_model_A, param_grid_dt, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1,
+                            X_test_scaled_1, y_test_1, set_name="Decision Tree")
+train_and_evaluate_model(dt_model_A, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1,
+                         y_test_1)
 
 # Perform grid search for Random Forest model
 
@@ -777,8 +797,10 @@ param_grid_rf = {
 best_rf_model = RandomForestClassifier(random_state=42)
 
 # Optimize and evaluate the Random Forest model using the defined grid of hyperparameters
-optimize_and_evaluate_model(best_rf_model, param_grid_rf, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1, set_name="Random Forest")
-train_and_evaluate_model(best_rf_model, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1)
+optimize_and_evaluate_model(best_rf_model, param_grid_rf, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1,
+                            X_test_scaled_1, y_test_1, set_name="Random Forest")
+train_and_evaluate_model(best_rf_model, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1,
+                         y_test_1)
 
 # Define parameter grid for XGBoost model
 param_grid_xgb = {
@@ -793,7 +815,8 @@ param_grid_xgb = {
 xgb_model = xgb.XGBClassifier(random_state=42, objective='multi:softmax', num_class=9)
 
 # Perform grid search and evaluate model
-optimize_and_evaluate_model(xgb_model, param_grid_xgb, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1, set_name="XGBoost")
+optimize_and_evaluate_model(xgb_model, param_grid_xgb, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1,
+                            X_test_scaled_1, y_test_1, set_name="XGBoost")
 train_and_evaluate_model(xgb_model, X_train_scaled_1, y_train_1, X_valid_scaled_1, y_valid_1, X_test_scaled_1, y_test_1)
 
 # Initialize the JS visualization for SHAP plots
@@ -835,7 +858,7 @@ y_valid_pred_proba = best_rf_model.predict_proba(X_valid_scaled_1)[:, 1]
 y_test_pred_proba = best_rf_model.predict_proba(X_test_scaled_1)[:, 1]
 # Compute precision-recall curve values for validation set
 precision_valid, recall_valid, thresholds_valid = precision_recall_curve(y_valid_1,
-y_valid_pred_proba)
+                                                                         y_valid_pred_proba)
 # Compute area under the curve (AUC) for validation set
 pr_auc_valid = auc(recall_valid, precision_valid)
 # Plot the precision-recall curve for validation set
@@ -849,7 +872,7 @@ plt.show()
 
 # Compute precision-recall curve values for test set
 precision_test, recall_test, thresholds_test = precision_recall_curve(y_test_1,
-y_test_pred_proba)
+                                                                      y_test_pred_proba)
 # Compute area under the curve (AUC) for test set
 pr_auc_test = auc(recall_test, precision_test)
 # Plot the precision-recall curve for test set
@@ -860,6 +883,7 @@ plt.ylabel('Precision')
 plt.title('Precision-Recall Curve for Test Set')
 plt.legend(loc='lower left')
 plt.show()
+
 
 def evaluate_model(model, X, y, set_name=""):
     """
@@ -886,7 +910,7 @@ def evaluate_model(model, X, y, set_name=""):
     roc_auc = roc_auc_score(y, y_pred)
     conf_matrix = confusion_matrix(y, y_pred)
 
-    print(f'\n{"="*20} {type(model).__name__} {"="*20}\n')
+    print(f'\n{"=" * 20} {type(model).__name__} {"=" * 20}\n')
     print(f'{set_name} Set Evaluation: {type(model).__name__}')
     print(f"Accuracy: {accuracy:.4f}")
     print(f"Precision: {precision:.4f}")
@@ -896,15 +920,15 @@ def evaluate_model(model, X, y, set_name=""):
     cm_df = pd.DataFrame(conf_matrix, index=model.classes_, columns=model.classes_)
 
     print(f'{set_name} Set Evaluation: {type(model).__name__}')
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print(f'Classification Report: {set_name} set - {type(model).__name__}  \n')
-    print (classification_report(y,y_pred))
-    print(f'\n{"="*20}{"="*20}\n')
+    print(classification_report(y, y_pred))
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print(f'Confusion Matrix: {set_name} set - {type(model).__name__}  \n')
     print("Confusion Matrix:")
 
     print(cm_df)
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     plt.figure()
     plt.imshow(cm_df, cmap='Reds')
     plt.title(f'Confusion Matrix {set_name} Set Evaluation: {type(model).__name__}')
@@ -914,6 +938,7 @@ def evaluate_model(model, X, y, set_name=""):
     plt.tick_params(axis='both', which='major', labelsize=8)
     plt.tight_layout()
     plt.show()
+
 
 def plot_roc_curve(fpr, tpr, auc_score, set_name="", model_name=""):
     """
@@ -933,6 +958,7 @@ def plot_roc_curve(fpr, tpr, auc_score, set_name="", model_name=""):
     plt.title(f'ROC Curve - {set_name} Set: {model_name}')
     plt.legend()
     plt.show()
+
 
 # Fit the Random Forest model
 best_rf_model.fit(X_train_scaled_1, y_train_1)
@@ -976,6 +1002,7 @@ plot_roc_curve(fpr_valid, tpr_valid, roc_auc_valid, set_name="Validation", model
 evaluate_model(best_rf_model, X_test_scaled_1, y_test_1, set_name="Test")
 plot_roc_curve(fpr_test, tpr_test, roc_auc_test, set_name="Test", model_name="Random Forest")
 
+
 def plot_confusion_matrix(confusion_matrix, title):
     # Calculate total correctly classified and misclassified instances
     correctly_classified = np.trace(confusion_matrix)
@@ -985,7 +1012,8 @@ def plot_confusion_matrix(confusion_matrix, title):
     fig, ax = plt.subplots()
 
     # Create a pie chart
-    ax.pie([correctly_classified, misclassified], labels=['Correctly Classified', 'Misclassified'], colors=['#ff9999', '#66b3ff'], autopct='%1.1f%%', shadow=True, startangle=140)
+    ax.pie([correctly_classified, misclassified], labels=['Correctly Classified', 'Misclassified'],
+           colors=['#ff9999', '#66b3ff'], autopct='%1.1f%%', shadow=True, startangle=140)
 
     # Display the pie chart
     plt.title(title)
@@ -995,15 +1023,16 @@ def plot_confusion_matrix(confusion_matrix, title):
     print("Total Correctly Classified Instances:", correctly_classified)
     print("Total Misclassified Instances:", misclassified)
 
+
 # Confusion matrix of Model A on Validation Set
-confusion_matrix_a_validation = np.array([[3259,   786],
-                                          [779,  3212]])
+confusion_matrix_a_validation = np.array([[3259, 786],
+                                          [779, 3212]])
 
 plot_confusion_matrix(confusion_matrix_a_validation, 'Correctly vs Misclassified Instances on Validation Set of Model')
 
 # Confusion matrix of Model A on Validation Set
-confusion_matrix_a_test = np.array([[3266,  757],
-                                    [ 823, 3191]])
+confusion_matrix_a_test = np.array([[3266, 757],
+                                    [823, 3191]])
 
 plot_confusion_matrix(confusion_matrix_a_test, 'Correctly vs Misclassified Instances on Test Set of Model')
 
@@ -1026,7 +1055,8 @@ X_train_scaled_1 = scaler.transform(X_train_1)
 X_test_scaled_1 = scaler.transform(X_test_1)
 
 # Create GridSearchCV
-grid_search = GridSearchCV(estimator=XGBClassifier(), param_grid=param_grid, cv=5, scoring='accuracy', n_jobs=-1, verbose=2)
+grid_search = GridSearchCV(estimator=XGBClassifier(), param_grid=param_grid, cv=5, scoring='accuracy', n_jobs=-1,
+                           verbose=2)
 
 # Fit the model on the training data
 grid_search.fit(X_train_scaled_1, y_train_1)
@@ -1035,21 +1065,22 @@ grid_search.fit(X_train_scaled_1, y_train_1)
 cv_results_xgb = grid_search.cv_results_
 # Print performance metrics for each fold
 for i in range(grid_search.n_splits_):
-  print(f"\nResults for Fold {i + 1}:")
-  print(f"Mean Test Score: {cv_results_xgb[f'mean_test_score'][i]}")
-  print(f"Standard Deviation Test Score: {cv_results_xgb[f'std_test_score'][i]}")
-  print(f"Params: {cv_results_xgb['params'][i]}")
+    print(f"\nResults for Fold {i + 1}:")
+    print(f"Mean Test Score: {cv_results_xgb[f'mean_test_score'][i]}")
+    print(f"Standard Deviation Test Score: {cv_results_xgb[f'std_test_score'][i]}")
+    print(f"Params: {cv_results_xgb['params'][i]}")
 
 #Evaluate Cross-Validation Stability of Model A
 # Define the parameter grid for hyperparameter tuning
 param_grid = {
-'n_estimators': [50, 100, 200],
-'max_depth': [10, 20, 30],
-'min_samples_split': [2, 5, 10],
-'min_samples_leaf': [1, 2, 4]
+    'n_estimators': [50, 100, 200],
+    'max_depth': [10, 20, 30],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4]
 }
 # Create GridSearchCV
-grid_search = GridSearchCV(estimator=best_rf_model, param_grid=param_grid, cv=5, scoring='accuracy', n_jobs=-1, verbose=2)
+grid_search = GridSearchCV(estimator=best_rf_model, param_grid=param_grid, cv=5, scoring='accuracy', n_jobs=-1,
+                           verbose=2)
 # Fit the model on the training data
 grid_search.fit(X_train_scaled_1, y_train_1)
 # Access cross-validation results
@@ -1057,47 +1088,52 @@ cv_results = grid_search.cv_results_
 
 # Print performance metrics for each fold
 for i in range(grid_search.n_splits_):
-  print(f"\nResults for Fold {i + 1}:")
-  print(f"Mean Test Score: {cv_results[f'mean_test_score'][i]}")
-  print(f"Standard Deviation Test Score: {cv_results[f'std_test_score'][i]}")
-  print(f"Params: {cv_results['params'][i]}")
+    print(f"\nResults for Fold {i + 1}:")
+    print(f"Mean Test Score: {cv_results[f'mean_test_score'][i]}")
+    print(f"Standard Deviation Test Score: {cv_results[f'std_test_score'][i]}")
+    print(f"Params: {cv_results['params'][i]}")
+
 
 # Overfitting Analysis for Model
 # Function to plot learning curve
-def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,n_jobs=-1, train_sizes=np.linspace(.1, 1.0, 5)):
-  plt.figure()
-  plt.title(title)
+def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None, n_jobs=-1, train_sizes=np.linspace(.1, 1.0, 5)):
+    plt.figure()
+    plt.title(title)
 
-  if ylim is not None:
-    plt.ylim(*ylim)
+    if ylim is not None:
+        plt.ylim(*ylim)
 
-  plt.xlabel("Training examples")
-  plt.ylabel("F1 Score")
+    plt.xlabel("Training examples")
+    plt.ylabel("F1 Score")
 
-  train_sizes, train_scores, test_scores = learning_curve(estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes, scoring='f1_macro')
-  train_scores_mean = np.mean(train_scores, axis=1)
-  train_scores_std = np.std(train_scores, axis=1)
-  test_scores_mean = np.mean(test_scores, axis=1)
-  test_scores_std = np.std(test_scores, axis=1)
-  plt.grid()
+    train_sizes, train_scores, test_scores = learning_curve(estimator, X, y, cv=cv, n_jobs=n_jobs,
+                                                            train_sizes=train_sizes, scoring='f1_macro')
+    train_scores_mean = np.mean(train_scores, axis=1)
+    train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    test_scores_std = np.std(test_scores, axis=1)
+    plt.grid()
 
-  plt.fill_between(train_sizes, train_scores_mean - train_scores_std,train_scores_mean + train_scores_std, alpha=0.1,  color="r")
-  plt.fill_between(train_sizes, test_scores_mean - test_scores_std,test_scores_mean + test_scores_std, alpha=0.1, color="g")
-  plt.plot(train_sizes, train_scores_mean, 'o-', color="r",label="Training score")
-  plt.plot(train_sizes, test_scores_mean, 'o-', color="g",label="Cross-validation score")
-  plt.legend(loc="best")
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std, train_scores_mean + train_scores_std, alpha=0.1,
+                     color="r")
+    plt.fill_between(train_sizes, test_scores_mean - test_scores_std, test_scores_mean + test_scores_std, alpha=0.1,
+                     color="g")
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r", label="Training score")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="g", label="Cross-validation score")
+    plt.legend(loc="best")
 
-  # Print calculations
-  print(f"Train Sizes: {train_sizes}")
-  print(f"Training Scores Mean: {train_scores_mean}")
-  print(f"Training Scores Std: {train_scores_std}")
-  print(f"Test Scores Mean: {test_scores_mean}")
-  print(f"Test Scores Std: {test_scores_std}")
-  return plt
+    # Print calculations
+    print(f"Train Sizes: {train_sizes}")
+    print(f"Training Scores Mean: {train_scores_mean}")
+    print(f"Training Scores Std: {train_scores_std}")
+    print(f"Test Scores Mean: {test_scores_mean}")
+    print(f"Test Scores Std: {test_scores_std}")
+    return plt
+
 
 # Plot learning curve
 title = "Learning Curve (Random Forest) for Model"
-cv = 5 # Cross-validation folds
+cv = 5  # Cross-validation folds
 plot_learning_curve(best_rf_model, title, X_train_scaled_1, y_train_1, cv=cv)
 plt.show()
 
@@ -1108,11 +1144,11 @@ X_original_encoded = pd.get_dummies(X_original, columns=['country', 'PSP', 'card
 # Identify additional columns in X_original_encoded not present in X_train_1
 additional_columns = set(X_original_encoded.columns) - set(X_train_1.columns)
 if additional_columns:
-  print(f"Additional columns in X_original_encoded: {additional_columns}")
+    print(f"Additional columns in X_original_encoded: {additional_columns}")
 # Identify missing columns in X_original_encoded compared to X_train_1
 missing_columns = set(X_train_1.columns) - set(X_original_encoded.columns)
 if missing_columns:
-  print(f"Missing columns in X_original_encoded: {missing_columns}")
+    print(f"Missing columns in X_original_encoded: {missing_columns}")
 # Keep only columns present in X_train_1 in X_original_encoded
 X_original_encoded = X_original_encoded[X_train_1.columns]
 # Scale the features using the previously defined 'scaler'
@@ -1172,18 +1208,19 @@ X_2 = df_2_resampled.drop('PSP', axis=1)
 y_2 = df_2_resampled['PSP']
 # Split the dataset into train, validation, and test sets
 X_train_2, X_temp_2, y_train_2, y_temp_2 = train_test_split(X_2, y_2, test_size=0.2, random_state=42)
-X_valid_2, X_test_2, y_valid_2, y_test_2 = train_test_split(X_temp_2, y_temp_2, test_size=0.5,random_state=42)
+X_valid_2, X_test_2, y_valid_2, y_test_2 = train_test_split(X_temp_2, y_temp_2, test_size=0.5, random_state=42)
 # Normalize Data
 scaler = StandardScaler()
 X_train_scaled_2 = scaler.fit_transform(X_train_2)
 X_valid_scaled_2 = scaler.transform(X_valid_2)
 X_test_scaled_2 = scaler.transform(X_test_2)
 
+
 def evaluate_model2(model, X, y, set_name):
     # Make predictions on the data
     y_pred = model.predict(X)
     # Extract the values of the target variable
-    y_values = y.values.ravel() # Convert DataFrame to 1D array
+    y_values = y.values.ravel()  # Convert DataFrame to 1D array
     # Calculate and print relevant evaluation metrics
     precision = precision_score(y_values, y_pred, average='weighted')
     recall = recall_score(y_values, y_pred, average='weighted')
@@ -1194,9 +1231,8 @@ def evaluate_model2(model, X, y, set_name):
     else:
         roc_auc = roc_auc_score(pd.get_dummies(y_values), model.predict_proba(X), average='weighted', multi_class='ovr')
 
-
     accuracy = accuracy_score(y_values, y_pred)
-    print(f'\n{"="*20} {type(model).__name__} {"="*20}\n')
+    print(f'\n{"=" * 20} {type(model).__name__} {"=" * 20}\n')
     print(f'{set_name} Set Evaluation: {type(model).__name__}')
     print(f"Precision: {precision:.4f}")
     print(f"Recall: {recall:.4f}")
@@ -1206,11 +1242,11 @@ def evaluate_model2(model, X, y, set_name):
     cm = confusion_matrix(y, y_pred)
     cm_df = pd.DataFrame(cm, index=model.classes_, columns=model.classes_)
 
-    print(f'\n{"="*20}{"="*20}\n')
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print(f'Classification Report: {set_name} set - {type(model).__name__}  \n')
     print(classification_report(y_values, y_pred))
-    print (classification_report(y,y_pred))
-    print(f'\n{"="*20}{"="*20}\n')
+    print(classification_report(y, y_pred))
+    print(f'\n{"=" * 20}{"=" * 20}\n')
     print(f'Confusion Matrix: {set_name} set - {type(model).__name__}  \n')
     print("Confusion Matrix:")
     print(cm_df)
@@ -1223,6 +1259,7 @@ def evaluate_model2(model, X, y, set_name):
     plt.tick_params(axis='both', which='major', labelsize=8)
     plt.tight_layout()
     plt.show()
+
 
 # Create and train Random Forest model with specified parameters
 
@@ -1251,8 +1288,8 @@ evaluate_model2(rf_model_B, X_test_scaled_2, y_test_2, set_name="Test")
 rf_model = RandomForestClassifier(random_state=42)
 # Define the parameter grid for hyperparameter tuning
 param_grid = {
-'n_estimators': [50, 100, 200],
-'max_depth': [10, 20, 30]
+    'n_estimators': [50, 100, 200],
+    'max_depth': [10, 20, 30]
 }
 
 # Use GridSearchCV for hyperparameter tuning
@@ -1264,7 +1301,8 @@ rf_best_model = rf_grid.best_estimator_
 print("Best Hyperparameters:", rf_grid.best_params_)
 
 # Perform cross-validation on the training set with the best model
-cv_scores_rf = cross_val_score(rf_best_model, X_train_scaled_2, y_train_2, scoring='f1_weighted', cv=StratifiedKFold(n_splits=5))
+cv_scores_rf = cross_val_score(rf_best_model, X_train_scaled_2, y_train_2, scoring='f1_weighted',
+                               cv=StratifiedKFold(n_splits=5))
 # Print cross-validation scores
 print("Cross-Validation Scores with Best Model of Random Forest Classification:")
 print(cv_scores_rf)
@@ -1290,7 +1328,8 @@ y_test_2_bin = label_binarize(y_test_2, classes=np.unique(y_test_2))
 # Predict probabilities on the validation set
 y_valid_pred_proba_rf = rf_best_model.predict_proba(X_valid_scaled_2)
 # Calculate precision and recall for various thresholds
-precision_rf_valid, recall_rf_valid, thresholds_rf_valid = precision_recall_curve(y_valid_2_bin.ravel(), y_valid_pred_proba_rf.ravel())
+precision_rf_valid, recall_rf_valid, thresholds_rf_valid = precision_recall_curve(y_valid_2_bin.ravel(),
+                                                                                  y_valid_pred_proba_rf.ravel())
 # Calculate AUC for validation set
 auc_rf_valid = auc(recall_rf_valid, precision_rf_valid)
 # Plot the precision-recall curve for validation set
@@ -1306,7 +1345,8 @@ plt.show()
 # Predict probabilities on the test set
 y_test_pred_proba_rf = rf_best_model.predict_proba(X_test_scaled_2)
 # Calculate precision and recall for various thresholds
-precision_rf_test, recall_rf_test, thresholds_rf_test = precision_recall_curve(y_test_2_bin.ravel(), y_test_pred_proba_rf.ravel())
+precision_rf_test, recall_rf_test, thresholds_rf_test = precision_recall_curve(y_test_2_bin.ravel(),
+                                                                               y_test_pred_proba_rf.ravel())
 # Calculate AUC for test set
 auc_rf_test = auc(recall_rf_test, precision_rf_test)
 # Plot the precision-recall curve for test set
@@ -1318,6 +1358,7 @@ plt.title('Precision-Recall Curve - RandomForestClassifier (Test)')
 plt.legend()
 plt.grid(True)
 plt.show()
+
 
 #ROC Curve on validation and test set of Model
 def evaluate_model_with_roc(model, X, y, set_name="Set"):
@@ -1343,6 +1384,7 @@ def evaluate_model_with_roc(model, X, y, set_name="Set"):
     plt.legend(loc='lower right')
     plt.show()
 
+
 # Evaluate on Validation Set with ROC Curve
 print("Model Performance on Validation set - RandomForestClassifier:")
 evaluate_model_with_roc(rf_best_model, X_valid_scaled_2, y_valid_2, set_name="Validation Set")
@@ -1352,7 +1394,8 @@ evaluate_model_with_roc(rf_best_model, X_test_scaled_2, y_test_2, set_name="Test
 
 # Cross-Validation stability of Model 2
 # Cross-validation scores with the best model
-cv_scores_rf = cross_val_score(rf_best_model, X_train_scaled_2, y_train_2, scoring='f1_weighted', cv=StratifiedKFold(n_splits=5))
+cv_scores_rf = cross_val_score(rf_best_model, X_train_scaled_2, y_train_2, scoring='f1_weighted',
+                               cv=StratifiedKFold(n_splits=5))
 print("Cross-Validation Scores with Best Model of Random Forest Classification:")
 print(cv_scores_rf)
 print(f"Average F1 Weighted Score: {cv_scores_rf.mean():.4f}")
@@ -1363,9 +1406,10 @@ for i, score in enumerate(cv_scores_rf):
 # Train the model on the entire training set
 rf_best_model.fit(X_train_scaled_2, y_train_2)
 
+
 # Overfitting Analysis of Model B
 def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None, n_jobs=None,
-    train_sizes=np.linspace(.1, 1.0, 5)):
+                        train_sizes=np.linspace(.1, 1.0, 5)):
     plt.figure()
     plt.title(title)
 
@@ -1376,22 +1420,22 @@ def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None, n_jobs=None,
     plt.ylabel("F1 Score")
 
     train_sizes, train_scores, test_scores = learning_curve(estimator, X, y, cv=cv, n_jobs=n_jobs,
-    train_sizes=train_sizes, scoring='f1_weighted')
+                                                            train_sizes=train_sizes, scoring='f1_weighted')
 
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)
     test_scores_mean = np.mean(test_scores, axis=1)
     test_scores_std = np.std(test_scores, axis=1)
     plt.grid()
-    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,train_scores_mean + train_scores_std,
-                        alpha=0.1,color="r")
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std, train_scores_mean + train_scores_std,
+                     alpha=0.1, color="r")
     plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
-                        test_scores_mean + test_scores_std, alpha=0.1, color="g")
-    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",label="Training score")
-    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",label="Cross-validation score")
+                     test_scores_mean + test_scores_std, alpha=0.1, color="g")
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r", label="Training score")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="g", label="Cross-validation score")
     plt.legend(loc="best")
 
-      # Print calculations
+    # Print calculations
     print(f"Train Sizes: {train_sizes}")
     print(f"Training Scores Mean: {train_scores_mean}")
     print(f"Training Scores Std: {train_scores_std}")
@@ -1399,7 +1443,10 @@ def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None, n_jobs=None,
     print(f"Test Scores Std: {test_scores_std}")
     return plt
     # Plot learning curves
-plot_learning_curve(rf_best_model, "Model Learning Curve - Random Forest",X_train_scaled_2, y_train_2, cv=StratifiedKFold(n_splits=5), n_jobs=-1)
+
+
+plot_learning_curve(rf_best_model, "Model Learning Curve - Random Forest", X_train_scaled_2, y_train_2,
+                    cv=StratifiedKFold(n_splits=5), n_jobs=-1)
 plt.show()
 
 # Optimal PSP prediction for each exiting transaction
@@ -1416,8 +1463,8 @@ categorical_features = ['country', 'card']
 categorical_transformer = OneHotEncoder()
 # Create a ColumnTransformer for preprocessing
 preprocessor = ColumnTransformer(
-transformers=[('num', numeric_transformer, numeric_features),
-                ('cat', categorical_transformer, categorical_features)])
+    transformers=[('num', numeric_transformer, numeric_features),
+                  ('cat', categorical_transformer, categorical_features)])
 # Transform the features using the preprocessor
 X_predict_transformed = preprocessor.fit_transform(X_predict)
 # Predict the 'PSP' values using the best Random Forest model
@@ -1427,9 +1474,10 @@ df_2['PSP'] = psp_column
 # Print the DataFrame with predicted 'PSP' values
 print(df_2)
 
+
 def choose_best_psp(row):
     if pd.Series(row['Predicted_PSP']).nunique() == 1:
-    # No tie, return the predicted PSP
+        # No tie, return the predicted PSP
         return row['Predicted_PSP']
     else:
         # There is a tie, choose the most cost-effective PSP based on fee comparison
@@ -1442,6 +1490,8 @@ def choose_best_psp(row):
     else:
         # If not, choose the PSP with the lowest transaction fee
         return tied_rows.loc[tied_rows['transaction_fee'].idxmin()]['Predicted_PSP']
+
+
 # Apply the function to each row in df_2
 df_2['Best_PSP'] = df_2.apply(choose_best_psp, axis=1)
 # Display the updated DataFrame with the 'Best_PSP' column
@@ -1455,14 +1505,15 @@ best_psp_counts = df_2['Best_PSP'].value_counts()
 
 # Combine the counts into a DataFrame
 matching_counts = pd.DataFrame({
-'Predicted_PSP_Count': predicted_psp_counts,
-'Best_PSP_Count': best_psp_counts
+    'Predicted_PSP_Count': predicted_psp_counts,
+    'Best_PSP_Count': best_psp_counts
 })
 
 # Plot the count
 plt.figure(figsize=(10, 5))
 plt.bar(matching_counts.index, matching_counts['Predicted_PSP_Count'], label='Predicted_PSP')
-plt.bar(matching_counts.index, matching_counts['Best_PSP_Count'], label='Best_PSP', bottom=matching_counts['Predicted_PSP_Count'])
+plt.bar(matching_counts.index, matching_counts['Best_PSP_Count'], label='Best_PSP',
+        bottom=matching_counts['Predicted_PSP_Count'])
 plt.xlabel('PSP')
 plt.ylabel('Count')
 plt.title('Count of Predicted_PSP and Best_PSP')
